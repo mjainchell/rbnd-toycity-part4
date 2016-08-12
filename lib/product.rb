@@ -17,6 +17,7 @@ class Product < Udacidata
     @price = opts[:price]
   end
 
+
   private
 
     # Reads the last line of the data file, and gets the id if one exists
@@ -31,5 +32,9 @@ class Product < Udacidata
     def auto_increment
       @@count_class_instances += 1
     end
+
+
+
+
 
 end
