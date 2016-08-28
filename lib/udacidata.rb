@@ -47,12 +47,15 @@ class Udacidata
   end
 
   def self.find(arg)
-
+    if arg <= (self.all.length)
       self.all.each do |item|
         if item.id == arg
           return item
         end
       end
+    else
+      raise ProductNotFoundErrors::NotValidID
+    end
 
 
   end
@@ -61,17 +64,16 @@ class Udacidata
   def self.destroy(arg)
     item_to_delete = find(arg)
       database = CSV.table(@@data_path)
-
-
+      if arg <= (self.all.length)
         database.delete_if do |line|
           line[:id] == arg
         end
-
-
-    File.open(@@data_path, 'w') do |file|
-      file.write(database.to_csv)
-    end
-
+        File.open(@@data_path, 'w') do |file|
+          file.write(database.to_csv)
+        end
+      else
+        raise ProductNotFoundErrors::NotValidID
+      end
 =begin
     CSV.open(@@data_path, 'w') do |file|
         file << database[0]
@@ -99,16 +101,19 @@ class Udacidata
     end
   end
 
-  def self.where(opts = {})
+  def self.where(attributes = {})
     self.all.select do |item|
-      opts[:brand] == item.brand || opts[:name] == item.name
+      attributes[:brand] == item.brand || attributes[:name] == item.name
     end
   end
 
-
+  def update(attributes = {})
+    @id = self.id
+    @name = self.name
+    @brand = attributes[:brand]
+    @price = attributes[:price]
+    self.class.destroy(@id)
+    self.class.create(id: @id, brand: @brand, name: @name, price: @price)
+  end
 
 end
-
-
-
-
