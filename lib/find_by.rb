@@ -31,5 +31,4 @@ class Module
       end
     end
 
-  
 end

@@ -56,10 +56,7 @@ class Udacidata
     else
       raise ProductNotFoundErrors::NotValidID
     end
-
-
   end
-
 
   def self.destroy(arg)
     item_to_delete = find(arg)
@@ -74,31 +71,7 @@ class Udacidata
       else
         raise ProductNotFoundErrors::NotValidID
       end
-=begin
-    CSV.open(@@data_path, 'w') do |file|
-        file << database[0]
-        database.each do |line|
-          file << line
-        end
-    end
-=end
     return item_to_delete
-  end
-
-  def self.find_by_brand(arg)
-    self.all.each do |item|
-      if item.brand == arg
-        return item
-      end
-    end
-  end
-
-  def self.find_by_name(arg)
-    self.all.each do |item|
-      if item.name == arg
-        return item
-      end
-    end
   end
 
   def self.where(attributes = {})
@@ -117,3 +90,4 @@ class Udacidata
   end
 
 end
+
